@@ -8,7 +8,6 @@
     <title>FSMEMES</title>
     <meta property="og:title" content="MEMS">
     <meta property="og:locale" content="en_US">
-    <link rel="stylesheet" href="./assets/css/style.css">
     <style>
       body {
         overflow-y: scroll;
@@ -98,7 +97,7 @@
       }
       (async () => {
         // Get GitHub repository file info
-        const response = await fetch('https://api.github.com/repos/etler/recipes/contents/');
+        const response = await fetch('https://api.github.com/repos/Foreverender/FSMEMES/contents/');
         const data = await response.json();
         // Initialize search fields and results
         const search_form = document.getElementById('search_form');
