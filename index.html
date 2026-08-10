@@ -47,63 +47,60 @@
 
 </body>
 
-<script  type="module">
-
+<script type="module">
   import { render, html } from 'https://esm.run/uhtml@5.0.9';
 
   window.onload = async () => {
-  const pathname = window.location.pathname
-    .replace(/^\/FSMEMES\/?/, '')
-    .replace(/^\/+|\/+$/g, '');
+    const pathname = window.location.pathname
+      .replace(/^\/FSMEMES\/?/, '')
+      .replace(/^\/+|\/+$/g, '');
 
-  const apiPath = pathname ? `/${pathname}` : '';
+    const apiPath = pathname ? `/${pathname}` : '';
 
-  const apiUrl =
-    `https://api.github.com/repos/Foreverender/FSMEMES/contents${apiPath}`;
+    const apiUrl =
+      `https://api.github.com/repos/Foreverender/FSMEMES/contents${apiPath}`;
 
-  console.log("pathname:", pathname);
-  console.log("API URL:", apiUrl);
+    console.log('API URL:', apiUrl);
 
-  const response = await fetch(apiUrl);
+    const response = await fetch(apiUrl);
 
-  if (!response.ok) {
-    throw new Error(
-      `GitHub API returned ${response.status}: ${await response.text()}`
-    );
-  }
+    if (!response.ok) {
+      throw new Error(
+        `GitHub API returned ${response.status}: ${await response.text()}`
+      );
+    }
 
-  const results = await response.json();
+    const results = await response.json();
 
-  console.log("GitHub API results:", results);
-
-  // render here...
-};
+    console.log('GitHub API results:', results);
 
     render(document.body, html`
-  <div>
-    ${results
-      .filter(el => el.type === 'dir')
-      .map(el => html`
-        <a
-          class="directory"
-          href="${`/FSMEMES${pathname}/${el.name}/`}"
-        >${el.name}</a>
-      `)}
-  </div>
+      <div>
+        ${results
+          .filter(el => el.type === 'dir')
+          .map(el => html`
+            <a
+              class="directory"
+              href="${`/FSMEMES${pathname}/${el.name}/`}"
+            >${el.name}</a>
+          `)}
+      </div>
 
-  <div class="gallery">
-    ${results
-      .filter(el => el.name.match(/\.(gif|jpe?g|tiff?|png|webp|bmp|svg|mp4)$/i))
-      .map(el => html`
-        <a
-          class="img"
-          href="${`/FSMEMES${pathname}/${el.name}`}"
-          style="background-image: url('${`/FSMEMES${pathname}/${el.name}`}')"
-        ></a>
-      `)}
-  </div>
-`);
-
+      <div class="gallery">
+        ${results
+          .filter(el =>
+            el.name.match(/\.(gif|jpe?g|tiff?|png|webp|bmp|svg|mp4)$/i)
+          )
+          .map(el => html`
+            <a
+              class="img"
+              href="${`/FSMEMES${pathname}/${el.name}`}"
+              style="background-image: url('${`/FSMEMES${pathname}/${el.name}`}')"
+            ></a>
+          `)}
+      </div>
+    `);
+  };
 </script>
 
 </html>
