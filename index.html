@@ -52,12 +52,23 @@
   import {render, html} from 'https://unpkg.com/uhtml?module';
 
   window.onload = async () => {
+  const pathname = window.location.pathname
+    .replace(/^\/FSMEMES\/?/, '')
+    .replace(/^\/+|\/+$/g, '');
 
-    const pathname = window.location.pathname.replace(/\/FSMEMES/, '');
+  const apiPath = pathname ? `/${pathname}` : '';
 
-    const response = await fetch(`https://api.github.com/repos/Foreverender/FSMEMES/contents/${pathname}`)
+  const response = await fetch(
+    `https://api.github.com/repos/Foreverender/FSMEMES/contents${apiPath}`
+  );
 
-    const results = await response.json()
+  if (!response.ok) {
+    throw new Error(
+      `GitHub API returned ${response.status}: ${await response.text()}`
+    );
+  }
+
+  const results = await response.json();
 
     render(document.body, html`
     <div>
