@@ -58,9 +58,13 @@
 
   const apiPath = pathname ? `/${pathname}` : '';
 
-  const response = await fetch(
-    `https://api.github.com/repos/Foreverender/FSMEMES/contents${apiPath}`
-  );
+  const apiUrl =
+    `https://api.github.com/repos/Foreverender/FSMEMES/contents${apiPath}`;
+
+  console.log("pathname:", pathname);
+  console.log("API URL:", apiUrl);
+
+  const response = await fetch(apiUrl);
 
   if (!response.ok) {
     throw new Error(
@@ -71,21 +75,29 @@
   const results = await response.json();
 
     render(document.body, html`
-    <div>
-      ${results.filter(el => el.type === 'dir').map(el => html`
-      <a
-        class="directory"
-        href="${`https://Foreverender.github.io/FSMEMES${pathname}${el.name}`}">${el.name}`)}
-    </div>
-    <div class="gallery">
-      ${results.filter(el => el.name.match(/\.(gif|jpe?g|tiff?|png|webp|bmp|svg|mp4)$/i)).map(el => html`
+  <div>
+    ${results
+      .filter(el => el.type === 'dir')
+      .map(el => html`
+        <a
+          class="directory"
+          href="${`/FSMEMES${pathname}/${el.name}/`}"
+        >${el.name}</a>
+      `)}
+  </div>
+
+  <div class="gallery">
+    ${results
+      .filter(el => el.name.match(/\.(gif|jpe?g|tiff?|png|webp|bmp|svg|mp4)$/i))
+      .map(el => html`
         <a
           class="img"
-          href="${`https://Foreverender.github.io/FSMEMES${pathname}${el.name}`}"
-          style="${`background-image: url(https://Foreverender.github.io/FSMEMES${pathname}${el.name})`}">`)}`)
-  
-
-  }
+          href="${`/FSMEMES${pathname}/${el.name}`}"
+          style="background-image: url('${`/FSMEMES${pathname}/${el.name}`}')"
+        ></a>
+      `)}
+  </div>
+`);
 
 </script>
 
